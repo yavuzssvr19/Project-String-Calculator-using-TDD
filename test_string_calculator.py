@@ -3,35 +3,36 @@ import unittest
 class StringCalculator:
     @staticmethod
     def add(numbers):
-        # Eğer string boş ise, 0 dön
+        # If string is empty, return 0
         if not numbers:
             return 0
 
-        # Farklı ayırıcıları destekleme
+        # Support different separators
         delimiter = ","
         if numbers.startswith("//"):
             parts = numbers.split("\n", 1)
             delimiter = parts[0][2:]
             numbers = parts[1]
 
-        # Ayırıcıları standart hale getir (virgül ve yeni satır)
+        # Standardize separators (comma and newline)
         numbers = numbers.replace("\n", delimiter)
         number_list = numbers.split(delimiter)
 
-        # Negatif sayı kontrolü
+        # Negative number check
         negatives = [int(x) for x in number_list if int(x) < 0]
         if negatives:
             raise Exception(f"negatives not allowed: {', '.join(map(str, negatives))}")
 
-        # Sayıları topla
+        # Add the numbers
         return sum(int(x) for x in number_list if x.isdigit())
+    # Here is an example where we see that the test method works correctly with the parameter given to the method.
     print(add("1,-2,3"))
 
 class TestStringCalculator(unittest.TestCase):
 
     def test_empty_string_returns_zero(self):
         self.assertEqual(StringCalculator.add(""), 0)
-        print("sıkıntı yok")
+        
 
     def test_single_number_returns_value(self):
         self.assertEqual(StringCalculator.add("1"), 1)
